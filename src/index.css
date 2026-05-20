@@ -1,0 +1,81 @@
+@import "tailwindcss";
+
+@theme {
+  --color-primary: 2 79% 49%;
+  --color-primary-foreground: 0 0% 100%;
+  --color-background: 220 14% 96%;
+  --color-foreground: 0 0% 10%;
+  --color-card: 0 0% 100%;
+  --color-card-foreground: 0 0% 10%;
+  --color-popover: 0 0% 100%;
+  --color-popover-foreground: 0 0% 10%;
+  --color-secondary: 220 14% 96%;
+  --color-secondary-foreground: 0 0% 10%;
+  --color-muted: 220 13% 91%;
+  --color-muted-foreground: 218 11% 46%;
+  --color-accent: 217 91% 60%;
+  --color-accent-foreground: 0 0% 100%;
+  --color-destructive: 0 72% 51%;
+  --color-destructive-foreground: 0 0% 100%;
+  --color-border: 220 13% 91%;
+  --color-input: 220 13% 91%;
+  --color-ring: 2 79% 49%;
+  --color-success: 142 72% 37%;
+  --color-warning: 32 95% 44%;
+  --color-sidebar-background: 0 0% 100%;
+  --color-sidebar-foreground: 0 0% 10%;
+  --color-sidebar-primary: 2 79% 49%;
+  --color-sidebar-accent: 2 79% 97%;
+  --color-sidebar-accent-foreground: 2 79% 49%;
+  --color-sidebar-border: 220 13% 91%;
+  --color-sidebar-ring: 2 79% 49%;
+  --color-chart-amber: 32 95% 44%;
+  --color-chart-blue: 217 91% 60%;
+  --color-chart-green: 142 72% 37%;
+  --color-chart-red: 0 72% 51%;
+  --color-chart-gray: 0 0% 10%;
+  --color-chart-dark-red: 0 60% 40%;
+  --radius-card: 0.75rem;
+}
+
+* {
+  border-color: hsl(var(--color-border));
+}
+
+body {
+  margin: 0;
+  background-color: hsl(var(--color-background));
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  color: hsl(var(--color-foreground));
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.card-surface {
+  border-radius: var(--radius-card);
+  background: hsl(var(--color-card));
+  border: 1px solid hsl(var(--color-border));
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+}
+
+.section-label {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: hsl(var(--color-muted-foreground));
+  margin-bottom: 12px;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.fade-in {
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+input[type="range"] {
+  accent-color: hsl(var(--color-primary));
+}
