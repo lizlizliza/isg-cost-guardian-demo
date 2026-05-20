@@ -1,3 +1,4 @@
+import type { ReactNode } from "react";
 import type { Commodity } from "../../types";
 
 interface CommodityCardProps {
@@ -42,7 +43,7 @@ function RiserCageIcon() {
   );
 }
 
-const ICONS: Record<string, () => JSX.Element> = {
+const ICONS: Record<string, () => ReactNode> = {
   "air-baffle": AirBaffleIcon,
   "top-cover": TopCoverIcon,
   "riser-cage": RiserCageIcon,

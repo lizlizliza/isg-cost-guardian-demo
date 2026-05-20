@@ -20,7 +20,6 @@ import {
   DESTINATION_OPTIONS,
   SHIPPING_MODE_OPTIONS,
   TOOLING_TYPE_OPTIONS,
-  PAYMENT_TERM_OPTIONS,
   LABOR_RATE,
 } from "../../data/constants";
 

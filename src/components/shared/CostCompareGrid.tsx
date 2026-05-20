@@ -1,4 +1,4 @@
-import { COST_BAR_COLORS, COST_BAR_LABELS } from "../../data/constants";
+import { COST_BAR_COLORS } from "../../data/constants";
 
 interface CostCompareGridProps {
   values: number[];

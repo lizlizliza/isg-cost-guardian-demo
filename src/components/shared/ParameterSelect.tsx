@@ -1,5 +1,3 @@
-import type { PaymentTerm, MfgLocation, Destination, MaterialType, SurfaceTreatment } from "../../types";
-
 interface ParameterSelectProps {
   label: string;
   value: string;
