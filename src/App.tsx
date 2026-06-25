@@ -1,6 +1,5 @@
-import { useMemo, useState } from "react";
-import type { Program } from "./types";
-import { PROGRAMS, getProgramById } from "./data/sampleData";
+import { useState } from "react";
+import { DataProvider } from "./context/DataContext";
 import Header from "./components/layout/Header";
 import Sidebar from "./components/layout/Sidebar";
 import Footer from "./components/layout/Footer";
@@ -8,6 +7,7 @@ import ProgramDashboard from "./components/dashboard/ProgramDashboard";
 import L2BomAnalysis from "./components/dashboard/L2BomAnalysis";
 import VarianceWaterfall from "./components/dashboard/VarianceWaterfall";
 import ShouldCostCalculator from "./components/shouldCost/ShouldCostCalculator";
+import AdminPage from "./components/admin/AdminPage";
 
 export interface AppUser {
   name: string;
@@ -23,25 +23,16 @@ const DEMO_USERS: AppUser[] = [
   { name: "Grant Peng", initials: "GP", email: "gpeng@lenovo.com" },
 ];
 
-export default function App() {
+function AppInner() {
   const [activeTab, setActiveTab] = useState("program");
   const [collapsed, setCollapsed] = useState(false);
-  const [selectedProgramId, setSelectedProgramId] = useState("sr650v4");
   const [currentUser, setCurrentUser] = useState<AppUser>(DEMO_USERS[0]);
-
-  const program: Program | undefined = useMemo(
-    () => getProgramById(selectedProgramId),
-    [selectedProgramId]
-  );
 
   return (
     <div className="min-h-screen bg-background">
       <Header
         activeTab={activeTab}
         onTabChange={setActiveTab}
-        selectedProgram={program}
-        programs={PROGRAMS}
-        onProgramChange={setSelectedProgramId}
         currentUser={currentUser}
         onUserChange={setCurrentUser}
         users={DEMO_USERS}
@@ -53,18 +44,27 @@ export default function App() {
         onToggle={() => setCollapsed(!collapsed)}
       />
       <main
-        className={`pt-14 transition-all duration-200 min-h-screen ${
-          collapsed ? "ml-16" : "ml-[260px]"
+        className={`pt-14 transition-all duration-200 min-h-screen relative z-0 ${
+          collapsed ? "ml-16" : "ml-[240px]"
         }`}
       >
-        <div className="max-w-[1280px] mx-auto p-6">
-          {activeTab === "program" && program && <ProgramDashboard program={program} />}
-          {activeTab === "bom" && program && <L2BomAnalysis program={program} />}
-          {activeTab === "waterfall" && program && <VarianceWaterfall program={program} />}
+        <div className="max-w-[1280px] mx-auto p-6 relative z-0">
+          {activeTab === "program" && <ProgramDashboard />}
+          {activeTab === "bom" && <L2BomAnalysis />}
+          {activeTab === "waterfall" && <VarianceWaterfall />}
           {activeTab === "shouldcost" && <ShouldCostCalculator />}
+          {activeTab === "admin" && <AdminPage currentUser={currentUser} />}
           <Footer />
         </div>
       </main>
     </div>
+  );
+}
+
+export default function App() {
+  return (
+    <DataProvider>
+      <AppInner />
+    </DataProvider>
   );
 }

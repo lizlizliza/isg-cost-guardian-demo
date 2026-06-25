@@ -6,10 +6,10 @@ interface CostCompareGridProps {
 }
 
 const DISPLAY_GROUPS = [
-  { label: "Material", idx: 0 },
-  { label: "Conversion", idx: 1 },
-  { label: "Logistics + Tariff", idx: 3 },
-  { label: "Adders", idx: 4 },
+  { label: "Material", indices: [0], colorIdx: 0 },
+  { label: "Conversion", indices: [1], colorIdx: 1 },
+  { label: "Logistics + Tariff", indices: [3, 4], colorIdx: 3 },
+  { label: "Adders (NRE + E&O + Warranty)", indices: [2, 5, 6], colorIdx: 2 },
 ];
 
 export default function CostCompareGrid({ values, baseline }: CostCompareGridProps) {
@@ -18,11 +18,11 @@ export default function CostCompareGrid({ values, baseline }: CostCompareGridPro
   return (
     <div className="grid grid-cols-2 gap-3">
       {DISPLAY_GROUPS.map((group) => {
-        const val = values[group.idx] ?? 0;
-        const base = baseline ? baseline[group.idx] ?? 0 : 0;
+        const val = group.indices.reduce((sum, i) => sum + (values[i] ?? 0), 0);
+        const base = baseline ? group.indices.reduce((sum, i) => sum + (baseline[i] ?? 0), 0) : 0;
         const delta = val - base;
         const pct = total > 0 ? (val / total) * 100 : 0;
-        const color = COST_BAR_COLORS[group.idx];
+        const color = COST_BAR_COLORS[group.colorIdx];
 
         return (
           <div key={group.label} className="bg-card rounded-xl border border-border shadow-sm p-4">

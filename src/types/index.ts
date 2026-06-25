@@ -1,3 +1,66 @@
+// ---- Excel / IndexedDB record types ----
+
+export interface DashboardRecord {
+  platform: string;
+  kpiType: string;
+  value: number | string;
+  unit: string;
+  note?: string;
+}
+
+export interface PipelineRecord {
+  platform: string;
+  stage: number;
+  stageName: string;
+  date: string;
+  status: "done" | "active" | "pending";
+}
+
+export interface BOMRecord {
+  platform: string;
+  component: string;
+  category: string;
+  dce: number;
+  quote: number | null;
+  ch1: number;
+  ch2: number;
+  material: string;
+  status: string;
+  aiInsight: string;
+}
+
+export interface ShouldCostParamRecord {
+  platform: string;
+  commodity: string;
+  paramCategory: string;
+  paramName: string;
+  value: number | string;
+  unit: string;
+  options?: string;
+}
+
+export interface UploadMeta {
+  id?: number;
+  fileName: string;
+  uploadedAt: string;
+  uploadedBy: string;
+  sheets: { name: string; rows: number }[];
+  totalRows: number;
+}
+
+export type ActivityAction = "Upload" | "Edit" | "Export" | "Reset";
+
+export interface ActivityLogEntry {
+  id?: number;
+  timestamp: string;
+  user: string;
+  action: ActivityAction;
+  detail: string;
+  source: string;
+}
+
+// ---- SCC types ----
+
 export type MaterialType = "SECC Steel" | "SPCC Steel" | "Aluminum 5052" | "Stainless 304";
 export type SurfaceTreatment = "None" | "Zinc coat (electro)" | "E-coat" | "Powder coat" | "Anodize";
 export type MfgLocation = "Shenzhen, China" | "Chengdu, China" | "Penang, Malaysia" | "Monterrey, Mexico";

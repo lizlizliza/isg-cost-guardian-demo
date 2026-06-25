@@ -10,6 +10,8 @@ export default function CostBreakdownCard({ breakdown, commodity }: CostBreakdow
   const vsQuote = breakdown.shouldCost - commodity.supplierQuote;
   const vsPriorGenPct = ((vsPriorGen / commodity.priorGenDCE) * 100).toFixed(1);
 
+  const maturityScore = 3; // Air Baffle demo default: 3/5
+
   return (
     <div className="bg-card rounded-xl border border-border shadow-sm overflow-hidden">
       <div className="bg-background px-5 py-3 border-b border-border">
@@ -39,6 +41,18 @@ export default function CostBreakdownCard({ breakdown, commodity }: CostBreakdow
             Gap: {vsQuote < 0 ? '' : '+'}${vsQuote.toFixed(2)}
           </span>
         </span>
+      </div>
+      <div className="px-5 py-3 bg-card border-t border-border flex items-center justify-between text-xs">
+        <div className="flex items-center gap-1.5">
+          <span className="text-muted-foreground">Cost Maturity:</span>
+          <span className="flex gap-0.5">
+            {[1, 2, 3, 4, 5].map((n) => (
+              <span key={n} className={`w-2.5 h-2.5 rounded-full ${n <= maturityScore ? 'bg-primary' : 'bg-muted'}`} />
+            ))}
+          </span>
+          <span className="text-muted-foreground ml-1">{maturityScore}/5</span>
+        </div>
+        <span className="text-muted-foreground">Last calculated: just now</span>
       </div>
     </div>
   );

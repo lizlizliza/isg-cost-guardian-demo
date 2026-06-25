@@ -10,6 +10,7 @@ export default function SensitivityTable({ items }: SensitivityTableProps) {
   return (
     <div className="bg-card rounded-xl border border-border shadow-sm p-5">
       <div className="section-label">Sensitivity Analysis</div>
+      <div className="text-[10px] text-muted-foreground mt-0.5 mb-3">SENSITIVITY ANALYSIS — IMPACT OF ±10% CHANGE</div>
       <div className="overflow-x-auto">
         <table className="w-full text-xs">
           <thead>

@@ -92,16 +92,24 @@ export const COST_BAR_COLORS = [
   "#D97706",
   "#DC2626",
   "#7C3AED",
+  "#F59E0B",
   "#16A34A",
+  "#0891B2",
+  "#EF4444",
+  "#22C55E",
   "#6B7280",
 ];
 
 export const COST_BAR_LABELS = [
-  "Material",
-  "Conversion",
-  "NRE / Unit",
-  "Logistics + Tariff",
-  "E&O + Warranty",
+  "Raw Material",
+  "Conversion / Labor",
+  "Tooling / NRE",
+  "Logistics",
+  "Tariff",
+  "E&O Reserve",
+  "Warranty",
+  "Volume Discount",
+  "Payment Adder",
   "Margin / Overhead",
 ];
 

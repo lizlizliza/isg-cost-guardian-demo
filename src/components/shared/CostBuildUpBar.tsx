@@ -26,10 +26,15 @@ export default function CostBuildUpBar({ values }: CostBuildUpBarProps) {
           return (
             <div
               key={i}
-              className="relative group transition-all duration-300"
+              className="relative group transition-all duration-300 flex items-center justify-center"
               style={{ width: `${pct}%`, backgroundColor: COST_BAR_COLORS[i] }}
               title={`${COST_BAR_LABELS[i]}: $${v.toFixed(2)}`}
             >
+              {pct >= 5 && (
+                <span className="text-[10px] font-semibold text-white drop-shadow-sm pointer-events-none">
+                  ${v.toFixed(2)}
+                </span>
+              )}
               <div className="absolute inset-0 opacity-0 group-hover:opacity-100 bg-white/10 transition-opacity" />
             </div>
           );

@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Program Dashboard — Lenovo Cost Governance Platform</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --bg:           #F5F7FA;
+      --card-bg:      #FFFFFF;
+      --primary:      #0A2B3E;
+      --accent:       #0078D7;
+      --text:         #2C3E50;
+      --text-muted:   #7F8C8D;
+      --divider:      #E9EDF2;
+      --green:        #16A34A;
+      --orange:       #EA580C;
+      --red:          #DC2626;
+      --shadow:       0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+      --radius:       20px;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      padding: 24px;
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── Layout ─────────────────────────────── */
+    .dashboard {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 24px;
+      max-width: 1440px;
+      margin: 0 auto;
+    }
+
+    .left-col  { display: flex; flex-direction: column; gap: 24px; }
+    .right-col { display: flex; flex-direction: column; gap: 24px; }
+
+    /* ── Cards ──────────────────────────────── */
+    .card {
+      background: var(--card-bg);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 24px;
+    }
+    .card-title {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--primary);
+      margin-bottom: 20px;
+    }
+    .card-label {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    /* ── Program Overview ──────────────────── */
+    .overview-platform {
+      font-size: 24px;
+      font-weight: 800;
+      color: var(--primary);
+      margin-bottom: 4px;
+    }
+    .overview-subtitle {
+      font-size: 14px;
+      color: var(--text-muted);
+      margin-bottom: 20px;
+    }
+    .overview-metrics {
+      display: flex;
+      gap: 40px;
+      flex-wrap: wrap;
+    }
+    .overview-metric {}
+    .overview-metric .metric-label {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 2px;
+    }
+    .overview-metric .metric-value {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--primary);
+    }
+
+    /* ── PLP Stage Pipeline ────────────────── */
+    .pipeline-list {
+      display: flex;
+      flex-direction: column;
+    }
+    .pipeline-stage {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 14px 0;
+      border-bottom: 1px solid var(--divider);
+    }
+    .pipeline-stage:last-child { border-bottom: none; }
+
+    .stage-dot {
+      width: 12px; height: 12px;
+      border-radius: 50%;
+      flex-shrink: 0;
+      background: var(--accent);
+    }
+    .stage-dot.done    { background: var(--green); }
+    .stage-dot.active  { background: var(--accent); box-shadow: 0 0 0 4px rgba(0,120,215,0.18); }
+    .stage-dot.pending { background: #CBD5E1; }
+
+    .stage-info { flex: 1; min-width: 0; }
+    .stage-name {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--primary);
+    }
+    .stage-date {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-top: 1px;
+    }
+
+    .stage-metrics {
+      display: flex;
+      gap: 24px;
+      flex-shrink: 0;
+    }
+    .stage-metric {}
+    .stage-metric .sm-label {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    .stage-metric .sm-value {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--primary);
+    }
+
+    /* Pipeline footer pills */
+    .pipeline-footer {
+      margin-top: 16px;
+      padding-top: 14px;
+      border-top: 1px solid var(--divider);
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .pipeline-pill {
+      font-size: 11px;
+      color: var(--text-muted);
+      background: var(--bg);
+      border-radius: 999px;
+      padding: 5px 12px;
+      white-space: nowrap;
+    }
+
+    /* ── Right-side metric cards ───────────── */
+    .metric-card {
+      text-align: center;
+      padding: 28px 24px;
+    }
+    .metric-card .big-number {
+      font-size: 36px;
+      font-weight: 800;
+      color: var(--primary);
+      line-height: 1.1;
+      margin-bottom: 6px;
+    }
+    .metric-card .big-label {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 4px;
+    }
+    .metric-card .big-sub {
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+    .metric-card .trend-up   { color: var(--red); }
+    .metric-card .trend-down { color: var(--green); }
+
+    /* ── Responsive ────────────────────────── */
+    @media (max-width: 1199px) and (min-width: 768px) {
+      .dashboard {
+        grid-template-columns: 1fr;
+      }
+      .right-col {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+
+    @media (max-width: 767px) {
+      body { padding: 12px; }
+      .dashboard {
+        grid-template-columns: 1fr;
+        gap: 16px;
+      }
+      .right-col { gap: 16px; }
+      .left-col  { gap: 16px; }
+      .card { padding: 16px; }
+      .overview-platform { font-size: 20px; }
+      .overview-metrics { gap: 20px; }
+      .metric-card .big-number { font-size: 28px; }
+      .stage-metrics { gap: 12px; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="dashboard">
+  <!-- ═══════════ LEFT COLUMN ═══════════ -->
+  <div class="left-col">
+
+    <!-- PROGRAM OVERVIEW -->
+    <div class="card" id="programOverview">
+      <div class="overview-platform" id="ov-platform">ThinkSystem SR650 V4</div>
+      <div class="overview-subtitle" id="ov-subtitle">Server Platform · NPI Program · FY2025</div>
+      <div class="overview-metrics">
+        <div class="overview-metric">
+          <div class="metric-label">Volume</div>
+          <div class="metric-value" id="ov-volume">48K units</div>
+        </div>
+        <div class="overview-metric">
+          <div class="metric-label">Gate</div>
+          <div class="metric-value" id="ov-gate">Commit</div>
+        </div>
+        <div class="overview-metric">
+          <div class="metric-label"># Program Code</div>
+          <div class="metric-value" id="ov-code">Neptune</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PLP STAGE PIPELINE -->
+    <div class="card" id="plpPipeline">
+      <div class="card-title">PLP STAGE PIPELINE</div>
+      <div class="pipeline-list" id="pipeline-list">
+        <!-- rendered by JS -->
+      </div>
+      <div class="pipeline-footer" id="pipeline-footer">
+        <!-- rendered by JS -->
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ═══════════ RIGHT COLUMN ═══════════ -->
+  <div class="right-col">
+
+    <!-- ACI INDEX -->
+    <div class="card metric-card" id="aciCard">
+      <div class="card-label" style="margin-bottom:12px;">ACI INDEX</div>
+      <div class="big-number" id="aci-value">1.08</div>
+      <div class="big-label">Acquisition Cost Index</div>
+      <div class="big-sub">
+        Target: <span id="aci-target">1.00</span> &nbsp;·&nbsp;
+        Gap: <span class="trend-up" id="aci-gap">+$41</span> vs. DCE
+        <span class="trend-up" style="font-size:16px;"> &#9650;</span>
+      </div>
+    </div>
+
+    <!-- DCE -->
+    <div class="card metric-card" id="dceCard">
+      <div class="card-label" style="margin-bottom:12px;">DCE</div>
+      <div class="big-number" id="dce-value">$820</div>
+      <div class="big-label" id="dce-desc">Typical Model · Mid Config</div>
+      <div class="big-sub">
+        Prev. Gen: <span id="dce-prev">$791</span> &nbsp;·&nbsp;
+        &Delta; <span class="trend-up" id="dce-delta">+$29</span>
+      </div>
+    </div>
+
+    <!-- QUOTE COVERAGE -->
+    <div class="card metric-card" id="quoteCard">
+      <div class="card-label" style="margin-bottom:12px;">QUOTE COVERAGE</div>
+      <div class="big-number" id="quote-pct">78%</div>
+      <div class="big-label">RFQ / Quote Coverage</div>
+      <div class="big-sub" id="quote-detail">14 of 18 L2 components quoted</div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+// ═══════════════════════════════════════════════════════════
+//  Data model
+// ═══════════════════════════════════════════════════════════
+
+const defaultData = {
+  platformName:  "ThinkSystem SR650 V4",
+  subtitle:      "Server Platform · NPI Program · FY2025",
+  volume:        "48K units",
+  gate:          "Commit",
+  programCode:   "Neptune",
+
+  stages: [
+    { name: "Pre-Commit",  dateLabel: "Entered Jan 22",   dce: "$856", aci: "1.18" },
+    { name: "Commit",      dateLabel: "Key date Jan 22",  dce: "$820", aci: "1.08" },
+    { name: "Development", dateLabel: "Target Mar 13",    dce: null,   aci: null },
+    { name: "SUT",         dateLabel: "Target Apr 5",     dce: null,   aci: null },
+    { name: "Ship Support",dateLabel: "Target Jun 11",    dce: null,   aci: null }
+  ],
+
+  footerPills: [
+    "Pre-Commit Exit: Jan 22",
+    "Commit Entry: Jan 22",
+    "Commit Exit Target: Mar 13",
+    "SUT Target: Apr 5",
+    "SS Target: Jun 11"
+  ],
+
+  aciValue:      1.08,
+  aciTarget:     1.00,
+  gapValue:      "+$41",
+  gapReference:  "vs. DCE",
+
+  dceValue:        820,
+  dceDescription:  "Typical Model · Mid Config",
+  prevGenValue:    791,
+  delta:           "+$29",
+
+  coveragePercent:  78,
+  quotedCount:      14,
+  totalComponents:  18
+};
+
+// ═══════════════════════════════════════════════════════════
+//  Render
+// ═══════════════════════════════════════════════════════════
+
+function renderOverview(d) {
+  document.getElementById("ov-platform").textContent = d.platformName;
+  document.getElementById("ov-subtitle").textContent  = d.subtitle;
+  document.getElementById("ov-volume").textContent    = d.volume;
+  document.getElementById("ov-gate").textContent      = d.gate;
+  document.getElementById("ov-code").textContent      = d.programCode;
+}
+
+function renderPipeline(d) {
+  const list = document.getElementById("pipeline-list");
+  list.innerHTML = d.stages.map((s, i) => {
+    const dotClass = i < 2 ? "done" : (i === 2 ? "active" : "pending");
+    const metricsHtml = (s.dce !== null && s.aci !== null) ? `
+      <div class="stage-metrics">
+        <div class="stage-metric">
+          <div class="sm-label">DCE</div>
+          <div class="sm-value">${s.dce}</div>
+        </div>
+        <div class="stage-metric">
+          <div class="sm-label">ACI</div>
+          <div class="sm-value">${s.aci}</div>
+        </div>
+      </div>` : "";
+    return `
+      <div class="pipeline-stage">
+        <div class="stage-dot ${dotClass}"></div>
+        <div class="stage-info">
+          <div class="stage-name">${s.name}</div>
+          <div class="stage-date">${s.dateLabel}</div>
+        </div>
+        ${metricsHtml}
+      </div>`;
+  }).join("");
+
+  const footer = document.getElementById("pipeline-footer");
+  footer.innerHTML = d.footerPills.map(p => `<span class="pipeline-pill">${p}</span>`).join("");
+}
+
+function renderACI(d) {
+  document.getElementById("aci-value").textContent  = d.aciValue.toFixed(2);
+  document.getElementById("aci-target").textContent = d.aciTarget.toFixed(2);
+  document.getElementById("aci-gap").textContent    = d.gapValue;
+}
+
+function renderDCE(d) {
+  document.getElementById("dce-value").textContent  = "$" + d.dceValue;
+  document.getElementById("dce-desc").textContent   = d.dceDescription;
+  document.getElementById("dce-prev").textContent   = "$" + d.prevGenValue;
+  const deltaEl = document.getElementById("dce-delta");
+  const deltaNum = parseFloat(d.delta.replace(/[+$]/g, ""));
+  deltaEl.textContent = (deltaNum >= 0 ? "+" : "") + "$" + deltaNum;
+  deltaEl.className = deltaNum >= 0 ? "trend-up" : "trend-down";
+}
+
+function renderQuote(d) {
+  document.getElementById("quote-pct").textContent     = d.coveragePercent + "%";
+  document.getElementById("quote-detail").textContent  = d.quotedCount + " of " + d.totalComponents + " L2 components quoted";
+}
+
+function renderAll(d) {
+  renderOverview(d);
+  renderPipeline(d);
+  renderACI(d);
+  renderDCE(d);
+  renderQuote(d);
+}
+
+// ═══════════════════════════════════════════════════════════
+//  Public API — call this to update the whole dashboard
+// ═══════════════════════════════════════════════════════════
+
+function updateDashboard(data) {
+  // Merge with defaults so partial updates work
+  const merged = { ...defaultData, ...data };
+  renderAll(merged);
+}
+
+// ═══════════════════════════════════════════════════════════
+//  Boot
+// ═══════════════════════════════════════════════════════════
+
+renderAll(defaultData);
+
+// ── Demo: simulated backend refresh after 6 seconds ──
+setTimeout(() => {
+  updateDashboard({
+    stages: [
+      { name: "Pre-Commit",  dateLabel: "Entered Feb 3",    dce: "$870", aci: "1.21" },
+      { name: "Commit",      dateLabel: "Key date Feb 3",   dce: "$835", aci: "1.11" },
+      { name: "Development", dateLabel: "Target Apr 1",     dce: null,   aci: null },
+      { name: "SUT",         dateLabel: "Target Apr 28",    dce: null,   aci: null },
+      { name: "Ship Support",dateLabel: "Target Jul 7",     dce: null,   aci: null }
+    ],
+    footerPills: [
+      "Pre-Commit Exit: Feb 3",
+      "Commit Entry: Feb 3",
+      "Commit Exit Target: Apr 1",
+      "SUT Target: Apr 28",
+      "SS Target: Jul 7"
+    ],
+    aciValue: 1.11,
+    gapValue: "+$51",
+    dceValue: 835,
+    delta: "+$44",
+    coveragePercent: 83,
+    quotedCount: 15
+  });
+  console.log("[Dashboard] Data refreshed (simulated backend update)");
+}, 6000);
+</script>
+
+</body>
+</html>
